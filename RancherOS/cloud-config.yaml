@@ -1,0 +1,50 @@
+#cloud-config
+
+hostname: s500lxhmlcoreos01
+
+users:
+  - name: "fernando"
+    passwd: "$6$SALT$zFifZn/XRQWV6ZoDkd/d9/bqoR94O3n9K0eJfAmOJWAfoeC47o6NbKDUhkibHZb2Zj7vb6i1Om6hbjuN1eAza1"
+    groups:
+       - "sudo"
+       - "docker"
+# include one or more SSH public keys
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCknBdTytV0mOAIZkhtANnx8BO6bT0Qxt7nQP9w68oBTbSrCOWug7jSN7yp2QQABZzFbn7nKHkOAKlDdBMu0Q8XoRhgYooolS+Qt+Tw0FyAn1biPscPUbvTgFC/AZ8/+VXPqGc977R+DDNzFweDaxkzLWWq8k4DZp92FDYSRJ+b7eJG4BFJ84QNMiusgD8P1aBYf/BJ3GrggIgkUpXYhbV4k+0HQH+AFPAvXWngHveoSVTA2LjWhufy2N8YiNG72fgAMLtrQNGinNUF19B/UD5+kuPckE7vTt47cYQDaNXoIMayF910lz3c4Zofdloyg9waHgq3ogBt8Ma59zPbUNLL fi_felicissimo@WN500RD025
+
+write_files:
+  - path: /etc/rc.local
+    permissions: "0755"
+    owner: root
+    content: |
+      #!/bin/bash
+      echo "I'm doing things on start"
+
+
+rancher:
+  network:
+    interfaces:
+      eth0:
+        address: 10.31.0.245/24
+        gateway: 10.31.0.1
+        mtu: 1500
+        dhcp: false     
+      dns:
+      nameservers:
+        - 10.0.0.150 
+        - 10.0.0.151
+
+rancher:
+  network:
+    interfaces:
+      eth1:
+        address: 172.16.20.1/24
+        mtu: 1500
+        dhcp: false
+
+rancher:
+  network:
+    dns:
+      search: 
+        - magazineluiza.intranet 
+        - magazineluiza.com.br
